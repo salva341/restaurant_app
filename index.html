@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="restaurantAPP">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="assets/style/css/main.css">
+        <link rel="stylesheet" href="assets/modules/metroUI/css/metro-all.min.css">
+        <!-- GOOGLE MAPS -->
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0cZ14mtawuXj4IHbJj9wIRjsgsXUJUTs&callback=initMap"></script>
+    </head>
+    <body ng-controller="mainController">
+        <div data-role="navview" data-compact="md" data-expanded="lg" data-toggle="#pane-toggle" class="navview compact-md expanded-lg">
+            <nav class="navview-pane">
+                <button class="pull-button">
+                    <span class="mif-menu"></span>
+                </button>
+
+                <div class="suggest-box">
+                    <input data-role="search" data-clear-button="false" type="text" class="">
+                    <div class="button-group"><button class="button input-search-button" tabindex="-1" type="submit">
+                       </button></div>
+                    
+                    <button class="holder">
+                        <span class="mif-search"></span>
+                    </button>
+                </div>
+                <ul class="navview-menu" style="height: calc(100% - 140px);">
+                    <li id="menuInicio" ng-class="{'active': menuActive === 'Inicio'}">
+                         <a href="javascript:void(0)" ng-click="cambiaTemp(0)">
+                            <span class="icon"><span class="mif-home"></span></span>
+                            <span class="caption">INICIO</span>
+                        </a>
+                    </li>
+                    <li class="item-separator"></li>
+                    <li class="item-header">MENU PRINCIPAL</li>
+                    <li id="menuRestaurantes"  ng-class="{'active': menuActive === 'Restaurantes'}">
+                        <a href="javascript:void(0)" ng-click="cambiaTemp(1)">
+                            <span class="icon"><span class="mif-shop"></span></span>
+                            <span class="caption">RESTAURANTES</span>
+                        </a>
+                    </li>
+                    <li id="menuRestaurantes"  ng-class="{'active': menuActive === 'Responsables'}">
+                            <a href="javascript:void(0)" ng-click="cambiaTemp(3)">
+                                <span class="icon"><span class="mif-user"></span></span>
+                                <span class="caption">DUEÑOS / RESPONSABLES</span>
+                            </a>
+                        </li>
+                    <li id="menuIncidencias"  ng-class="{'active': menuActive === 'Incidencias'}">
+                        <a href="javascript:void(0)" class="" ng-click="cambiaTemp(2)">
+                            <span class="icon"><span class="mif-fire"></span></span>
+                            <span class="caption">INCIDENCIAS</span>
+                        </a>
+                    </li>
+                    <li class="item-separator"></li>
+                    <li class="" id="menuAdminArea" ng-class="{'active': menuActive === 'AdminArea'}">
+                        <a href="javascript:void(0)">
+                            <span class="icon"><span class="mif-windows"></span></span>
+                            <span class="caption">ADMIN AREA</span>
+                        </a>
+                    </li>
+                    <li ng-class="{'active': menuActive === 'Documentos'}">
+                        <a href="javascript:void(0)">
+                            <span class="icon"><span class="mif-folder"></span></span>
+                            <span class="caption">DOCUMENTOS</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="navview-content">
+                <div class="page-title">
+                    <span>Bienvenido Administrador</span>
+                </div>
+                <div class="" ng-if="loading">
+                    <div data-role="progress" data-type="line" data-small="true"></div>
+                </div>
+                    <div ng-include="template.url"></div>
+                    
+            </div>
+        </div>
+    </div>
+        <script src="assets/modules/jquery.js"></script>
+        <script src="assets/modules/metroUI/js/metro.min.js"></script>
+        <script src="assets/modules/angularJS/angular.min.js"></script>
+        <!-- ANGULAR MODULE APP --> 
+        <script src="assets/js/app.js"></script>
+        
+    </body>
+
+</html>
