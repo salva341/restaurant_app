@@ -1,4 +1,7 @@
 <div ng-controller="restaurantController">
+
+<!-- RESTAURANT LIST - NOT VIEW -->
+<div class=""  ng-show="view === false">
 <div class="page-header">
     <h1>RESTAURANTES</h1>
 </div>
@@ -24,7 +27,7 @@
         <tbody>
             <tr ng-repeat="item in restaurantes | filter : buscarRest">
                 <td>{{item.id}}</td>
-                <td><a href="javascript:void(0)">{{item.ref_cliente}}</a></td>
+                <td><a href="javascript:void(0)" ng-click="viewRestaurant(item)">{{item.ref_cliente}}</a></td>
                 <td>{{item.nombre}}</td>
                 <td><a href="javascript:void(0)">{{item.responsable}}</a></td>
                 <td>{{item.alta}}</td>
@@ -34,7 +37,7 @@
                     <div class="split-button">
                         <button class="split secondary dropdown-toggle"></button>
                         <ul class="d-menu place-right" data-role="dropdown">
-                            <li><a href="#">Ver</a></li>
+                            <li><a href="javascript:void(0)" ng-click="viewRestaurant(item)">Ver</a></li>
                             <li><a href="#">Editar</a></li>
                             <li><a href="#">Enviar E-mail</a></li>
                             <li class="divider"></li>
@@ -48,9 +51,39 @@
 </div>
 </div>
 
+    <!-- VIEW RESTAURANT -->
+    <div class="" ng-show="view">
+        <div class="page-header">
+            <h1>RESTAURANTE: {{restaurantViewed}}</h1>
+        </div>
+        <div class="page-options">
+            <button class="button success" onclick="Metro.dialog.open('#crearRest')" style="margin-right: 0.5em;">VOLVER ATRÁS</button>
+            <button class="button alert" onclick="">ELIMINAR RESTAURANTE</button>
+        </div>
+
+        <div class="page-content">
+            <div class="view-restaurant-cont">
+                <div class="view-restaurant-image"> 
+                    <img src="http://via.placeholder.com/450x400">
+                </div>
+                <div class="view-restaurant-desc">
+                   <div class="">
+                       <button class="button info">DETALLES</button>
+                       <button class="button">RESPONSABLE</button>
+                       <button class="button">LOCALIZACIÓN</button>
+                   </div>
+                </div>
+            </div>
+               
+            </div>
+        </div>
+    </div>
+</div>
 
 
-<!-- DIALOGOS -->
+
+
+<!-- DIALOGO CREAR RESTAURANTE-->
 <div class="dialog" data-role="dialog" id="crearRest">
         <div class="dialog-title">CREAR RESTAURANTE</div>
         <div class="dialog-content">

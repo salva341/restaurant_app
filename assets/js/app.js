@@ -9,12 +9,29 @@ APP.controller('responsablesController', responsablesController);
 
 function restaurantController ($scope)
 {
-  console.log('RestaurantController');
+
+  this.$onInit = function()
+  {
+    
+    if($scope.restaurantViewed === null)
+    {
+      console.log('Entro en la lista');
+      $scope.view = false;
+    }
+    else
+    {
+      console.log('Estoy viendo');
+      $scope.view = true;
+    }
+  }
+
+  $scope.view = false;
+  $scope.restaurantViewed = null;
   $scope.buscarRest = '';
   $scope.restaurantes = [
     {
         id: 001,
-        ref_cliente: '#456545FGR',
+        ref_cliente: '456545FGR',
         nombre: 'Restaurante El Retiro',
         responsable: 'David Moreno Sánchez',
         alta: '20-05-2018',
@@ -23,7 +40,7 @@ function restaurantController ($scope)
     },
     {
         id: 002,
-        ref_cliente: '#556675FG',
+        ref_cliente: '556675FG',
         nombre: 'Restaurante Casa De Campo',
         responsable: 'Salvador Romero Aguilar',
         alta: '20-05-2018',
@@ -32,7 +49,7 @@ function restaurantController ($scope)
     },
     {
         id: 003,
-        ref_cliente: '#53646ERSD',
+        ref_cliente: '53646ERSD',
         nombre: 'Bar La esquina de oro',
         responsable: 'Manuel Carrello Jiminez',
         alta: '17-05-2018',
@@ -41,7 +58,7 @@ function restaurantController ($scope)
     },
     {
       id: 003,
-      ref_cliente: '#67547634JH',
+      ref_cliente: '67547634JH',
       nombre: 'Bar Casa Domingo',
       responsable: 'Domingo Lopez Fernandez',
       alta: '13-02-2018',
@@ -50,7 +67,7 @@ function restaurantController ($scope)
     },
     {
       id: 004,
-      ref_cliente: '#2346645GT',
+      ref_cliente: '2346645GT',
       nombre: 'Bar Taberna Mijares',
       responsable: 'Jose Luis Zapata Mijares',
       alta: '13-02-2018',
@@ -58,6 +75,14 @@ function restaurantController ($scope)
       localizacion: 'Calle Arroyo Belincoso nº53, Madrid'
     }
   ];
+
+  $scope.viewRestaurant = function(item)
+  {
+    console.log(item);
+    $scope.view = true;
+    $scope.restaurantViewed = item.ref_cliente;
+  }
+
 }
 
 /**
@@ -67,17 +92,6 @@ function homeController($scope)
 {
   console.log('homeController');
   
-  function initMap() {
-    var uluru = {lat: -25.363, lng: 131.044};
-    var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 4,
-      center: uluru
-    });
-    var marker = new google.maps.Marker({
-      position: uluru,
-      map: map
-    });
-  }
 }
 
 /**
@@ -119,7 +133,8 @@ function mainController ($scope)
       { controller: 'controllers/homeController.js', url: 'pages/inicio.html', name: 'Inicio'},
       { controller: 'controllers/restaurantController.js', url: 'pages/restaurantes.html', name: 'Restaurantes'},
       { controller: 'controllers/incidenceController.js', url: 'pages/incidencias.html', name: 'Incidencias'},
-      { controller: 'controllers/responsablesController.js', url: 'pages/responsables.html', name: 'Responsables'}
+      { controller: 'controllers/responsablesController.js', url: 'pages/responsables.html', name: 'Responsables'},
+      { controller: 'controllers/viewRestaurantController.js', url: 'views/viewRestaurant.html', name: 'VerRestaurante'}
     ];
     $scope.menuActive = '';
     $scope.template = $scope.templates[0];
