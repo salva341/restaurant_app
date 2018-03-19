@@ -28,6 +28,8 @@ function restaurantController ($scope)
   $scope.view = false;
   $scope.restaurantViewed = null;
   $scope.buscarRest = '';
+  $scope.restaurante = {};
+
   $scope.restaurantes = [
     {
         id: 001,
@@ -76,13 +78,30 @@ function restaurantController ($scope)
     }
   ];
 
+  $scope.viewList = function()
+  {
+    $scope.loading = true;
+    setTimeout(function() 
+    {
+      $scope.view = false;
+      $scope.restaurantViewed = null;
+      $scope.loading = false;
+      $scope.$apply();
+    }, 500);
+  };
+
   $scope.viewRestaurant = function(item)
   {
-    console.log(item);
-    $scope.view = true;
-    $scope.restaurantViewed = item.ref_cliente;
-  }
-
+    $scope.loading = true;
+    setTimeout(function() 
+    {
+      $scope.view = true;
+      $scope.restaurantViewed = item.ref_cliente;
+      $scope.loading = false;
+      $scope.$apply();
+    }, 500);
+    
+  };
 }
 
 /**
@@ -151,7 +170,7 @@ function mainController ($scope)
         $scope.template = $scope.templates[item]
 
         $scope.$apply();
-      }, 1000);
+      }, 500);
      
     };
 };
