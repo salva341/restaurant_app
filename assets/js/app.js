@@ -35,7 +35,7 @@ function mainController ($scope)
         $scope.template = $scope.templates[item]
 
         $scope.$apply();
-      }, 1000);
+      }, 500);
      
     };
 };

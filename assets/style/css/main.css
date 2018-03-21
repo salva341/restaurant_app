@@ -74,12 +74,11 @@ textarea
 .page-content
 {
     padding: 1em;
-    
+    height: 100%;
 }
 
 .view-restaurant-cont
 {
-    border: 1px solid red;
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
@@ -91,9 +90,14 @@ textarea
 {
     height: 400px;
     width: 450px;
-    margin-right: 1em;
     min-height: 350px;
     height: 100%;
+}
+
+.view-restaurant-image img
+{
+    height: 400px;
+    width: 450px;
 }
 
 .view-restaurant-desc
