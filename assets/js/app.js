@@ -3,7 +3,6 @@ var APP = angular.module('restaurantAPP', []);
 // CONTROLLER MAIN FOR FIRST PAGE
 APP.controller('mainController', mainController);
 
-
 /**
  * Controlador por defecto de la pagina de administracion
  * @param {*}  
@@ -20,7 +19,7 @@ function mainController ($scope)
       { controller: 'controllers/viewRestaurantController.js', url: 'views/viewRestaurant.html', name: 'VerRestaurante'}
     ];
 
-    
+
     $scope.menuActive = '';
     $scope.template = $scope.templates[0];
     $scope.loading = false;
