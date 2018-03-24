@@ -1,0 +1,199 @@
+<div ng-controller="restaurantController">
+    <div class="" ng-if="loading">
+        <div data-role="progress" data-type="line" data-small="true"></div>
+    </div>
+<!-- RESTAURANT LIST - NOT VIEW -->
+<div class=""  ng-show="view === false">
+<div class="page-header">
+    <h1>RESTAURANTES</h1>
+</div>
+<div class="page-options">
+    <input type="text" ng-model="buscarRest" placeholder="Buscar restaurante..." style="margin-right: 1em;">
+    <button class="button success" onclick="Metro.dialog.open('#crearRest')">CREAR RESTAURANTE</button>
+</div>
+
+<div class="page-content">
+    <table class="table striped">
+        <thead>
+            <tr>
+                <td>ID</td>
+                <td>REF. CLIENTE</td>
+                <td>NOMBRE</td>
+                <td>RESPONSABLE</td>
+                <td>ALTA</td>
+                <td>ESTATUS</td>
+                <td>LOCALIZACIÓN</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in restaurantes | filter : buscarRest">
+                <td>{{item.id}}</td>
+                <td><a href="javascript:void(0)" ng-click="viewRestaurant(item)">{{item.ref_cliente}}</a></td>
+                <td>{{item.nombre}}</td>
+                <td><a href="javascript:void(0)">{{item.responsable}}</a></td>
+                <td>{{item.alta}}</td>
+                <td>{{item.estatus}}</td>
+                <td>{{item.localizacion}}</td>
+                <td class="place-right">
+                    <div class="split-button">
+                        <button class="split secondary dropdown-toggle"></button>
+                        <ul class="d-menu place-right" data-role="dropdown">
+                            <li><a href="javascript:void(0)" ng-click="viewRestaurant(item)">Ver</a></li>
+                            <li><a href="#">Editar</a></li>
+                            <li><a href="#">Enviar E-mail</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Eliminar</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+
+    <!-- VIEW RESTAURANT -->
+    <div class="" ng-show="view">
+        <div class="page-header">
+            <h1>RESTAURANTE: {{restaurantViewed}}</h1>
+        </div>
+        <div class="page-options">
+            <button class="button link" ng-click="viewList()" style="margin-right: 0.5em;">VOLVER ATRÁS</button>
+            <button class="button info" onclick="Metro.dialog.open('#crear')" style="margin-right: 0.5em;">GUARDAR CAMBIOS</button>
+            <button class="button alert" onclick="Metro.dialog.open('#eliminarRest')">ELIMINAR RESTAURANTE</button>
+        </div>
+
+        <div class="page-content">
+            <div class="view-restaurant-cont">
+                <div class="view-restaurant-image"> 
+                    <img src="http://via.placeholder.com/450x400">
+                </div>
+                <div class="view-restaurant-desc">
+                   <div class="mb-5">
+                       <button class="button info">DETALLES</button>
+                       <button class="button">HISTORIAL MENÚS</button>
+                       <button class="button">RESPONSABLE</button>
+                       <button class="button">LOCALIZACIÓN</button>
+                   </div>
+                   <div class="grid">
+                       <div class="row mb-4">
+                           <div class="cell-6">
+                               <input type="text" placeholder="Referencia" ng-model="restaurant.referencia">
+                           </div>
+                           <div class="cell-6 ">
+                                <input type="text" placeholder="Nombre del restaurante" ng-model="restaurant.nombre">
+                            </div>
+                       </div>
+                       <div class="row mb-4">
+                            <div class="cell-6">
+                                <input type="text" data-role="calendarpicker" data-locale="es-ES" data-format="%d %b %Y" ng-model="restaurant.fecha">
+                            </div>
+                            <div class="cell-6">
+                                 <input type="text" placeholder="Nombre del responsable" ng-model="restaurant.responsable">
+                             </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="cell-6">
+                                <input type="text" placeholder="Estado" ng-model="restaurant.estado">
+                            </div>
+                            <div class="cell-6">
+                                <input type="text" placeholder="Dirección" ng-model="restaurant.direccion">
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="cell-12">
+                              <textarea id="" rows="6" placeholder="Descripción del restaurante" ng-model="restaurante.descripcion"></textarea>
+                            </div>
+                        </div>
+                   </div>
+                </div>
+            </div>
+
+            <div class="view-restaurant-incidences mt-5">
+                <h2>Historial de incidencias</h2>
+                <hr>
+                <table class="table striped mt-5">
+                    <thead>
+                        <tr>
+                            <td>ID</td>
+                            <td>REF. INCIDENCIA</td>
+                            <td>RESPONSABLE</td>
+                            <td>ASUNTO</td>
+                            <td>FECHA</td>
+                            <td>ESTADO</td>
+                            <td>PRIORIDAD</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>001</td>
+                            <td>54891312DA</td>
+                            <td>David Moreno Sanchez</td>
+                            <td>No actualiza mi menu</td>
+                            <td>21-03-2018</td>
+                            <td>Abierta</td>
+                            <td>Alta</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- DIALOGO CREAR RESTAURANTE-->
+<div class="dialog" data-role="dialog" id="crearRest">
+        <div class="dialog-title">CREAR RESTAURANTE</div>
+    <div class="dialog-content">
+        Por favor introduce todos los datos necesarios para crear el restaurante.
+        <div class="grid mt-4">
+            <div class="row">
+                <div class="cell-9">
+                    <input type="text" placeholder="Referencia">
+                </div>
+                <div class="cell-3">
+                    <button type="button" class="button info place-right">GENERAR</button>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="cell-6">
+                    <input type="text" placeholder="Nombre del restaurante">
+                </div>
+                <div class="cell-6">
+                    <input type="text" placeholder="Responsable">
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="cell-12">
+                    <input type="text" placeholder="Dirección">
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="cell-12">
+                    <textarea placeholder="Escribe una descripción del restaurante" rows="5"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dialog-actions place-right">
+        <button class="button js-dialog-close">CANCELAR</button>
+        <button class="button primary js-dialog-close">GUARDAR</button>
+    </div>
+</div>
+
+<!-- ELIMINAR RESTAURANTE -->
+<div class="dialog" data-role="dialog" id="eliminarRest">
+    <div class="dialog-title">ELIMINAR RESTAURANTE?</div>
+    <div class="dialog-content">
+        Si eliminas el restaurante todos los datos asociados a este se perderan para siempre.
+    </div>
+    <div class="dialog-actions">
+        <button class="button js-dialog-close">CANCELAR</button>
+        <button class="button primary js-dialog-close">ACEPTAR</button>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+<div ng-controller="incidenceController">
+    <div class="page-header">
+        <h1>INCIDENCIAS</h1>
+    </div>
+    <div class="page-options">
+        <input type="text" ng-model="buscarRest" placeholder="Buscar incidencia..." style="margin-right: 1em;">
+        <button class="button success" onclick="Metro.dialog.open('#crearRest')">CREAR INCIDENCIA</button>
+    </div>
+    
+    <div class="page-content">
+        <table class="table striped">
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>REF. INCIDENCIA</td>
+                    <td>CLIENTE</td>
+                    <td>RESPONSABLE</td>
+                    <td>ASUNTO</td>
+                    <td>FECHA</td>
+                    <td>ESTADO</td>
+                    <td>PRIORIDAD</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in incidencias | filter : buscarIncidencia">
+                    <td>{{item.id}}</td>
+                    <td>{{item.ref_incidencia}}</td>
+                    <td>{{item.nombre}}</td>
+                    <td>{{item.responsable}}</td>
+                    <td>{{item.asunto}}</td>
+                    <td>{{item.alta}}</td>
+                    <td>{{item.estatus}}</td>
+                    <td>{{item.prioridad}}</td>
+                    <td class="place-right">
+                        <div class="split-button">
+                            <button class="split secondary dropdown-toggle"></button>
+                            <ul class="d-menu place-right" data-role="dropdown">
+                                <li><a href="#">Ver</a></li>
+                                <li><a href="#">Editar</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Eliminar</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
