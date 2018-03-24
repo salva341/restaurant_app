@@ -40,7 +40,6 @@
                         <button class="split secondary dropdown-toggle"></button>
                         <ul class="d-menu place-right" data-role="dropdown">
                             <li><a href="javascript:void(0)" ng-click="viewRestaurant(item)">Ver</a></li>
-                            <li><a href="#">Editar</a></li>
                             <li><a href="#">Enviar E-mail</a></li>
                             <li class="divider"></li>
                             <li><a href="#">Eliminar</a></li>
@@ -56,11 +55,11 @@
     <!-- VIEW RESTAURANT -->
     <div class="" ng-show="view">
         <div class="page-header">
-            <h1>RESTAURANTE: {{restaurantViewed}}</h1>
+            <h1>RESTAURANTE: {{restaurantViewed.reference}}</h1>
         </div>
         <div class="page-options">
             <button class="button link" ng-click="viewList()" style="margin-right: 0.5em;">VOLVER ATRÁS</button>
-            <button class="button info" onclick="Metro.dialog.open('#crear')" style="margin-right: 0.5em;">GUARDAR CAMBIOS</button>
+            <button class="button info" ng-click="saveRestaurant()" style="margin-right: 0.5em;">GUARDAR CAMBIOS</button>
             <button class="button alert" onclick="Metro.dialog.open('#eliminarRest')">ELIMINAR RESTAURANTE</button>
         </div>
 
@@ -74,36 +73,35 @@
                        <button class="button info">DETALLES</button>
                        <button class="button">HISTORIAL MENÚS</button>
                        <button class="button">RESPONSABLE</button>
-                       <button class="button">LOCALIZACIÓN</button>
                    </div>
                    <div class="grid">
                        <div class="row mb-4">
                            <div class="cell-6">
-                               <input type="text" placeholder="Referencia" ng-model="restaurant.referencia">
+                               <input type="text" placeholder="Referencia" ng-model="restaurantViewed.reference">
                            </div>
                            <div class="cell-6 ">
-                                <input type="text" placeholder="Nombre del restaurante" ng-model="restaurant.nombre">
+                                <input type="text" placeholder="Nombre del restaurante" ng-model="restaurantViewed.name">
                             </div>
                        </div>
                        <div class="row mb-4">
                             <div class="cell-6">
-                                <input type="text" data-role="calendarpicker" data-locale="es-ES" data-format="%d %b %Y" ng-model="restaurant.fecha">
+                                <input type="text" data-role="calendarpicker" data-locale="es-ES" data-format="%d %b %Y" ng-model="restaurantViewed.created">
                             </div>
                             <div class="cell-6">
-                                 <input type="text" placeholder="Nombre del responsable" ng-model="restaurant.responsable">
+                                 <input type="text" placeholder="Nombre del responsable" ng-model="restaurantViewed.responsable">
                              </div>
                         </div>
                         <div class="row mb-4">
                             <div class="cell-6">
-                                <input type="text" placeholder="Estado" ng-model="restaurant.estado">
+                                <input type="text" placeholder="Estado" ng-model="restaurantViewed.status">
                             </div>
                             <div class="cell-6">
-                                <input type="text" placeholder="Dirección" ng-model="restaurant.direccion">
+                                <input type="text" placeholder="Dirección" ng-model="restaurantViewed.location">
                             </div>
                         </div>
                         <div class="row mb-4">
                             <div class="cell-12">
-                              <textarea id="" rows="6" placeholder="Descripción del restaurante" ng-model="restaurante.descripcion"></textarea>
+                              <textarea id="" rows="6" placeholder="Descripción del restaurante" ng-model="restaurantViewed.description"></textarea>
                             </div>
                         </div>
                    </div>
@@ -141,8 +139,6 @@
                
             </div>
         </div>
-    </div>
-</div>
 
 
 <!-- DIALOGO CREAR RESTAURANTE-->
@@ -153,36 +149,37 @@
         <div class="grid mt-4">
             <div class="row">
                 <div class="cell-9">
-                    <input type="text" placeholder="Referencia">
+                    <input type="text" readonly placeholder="Referencia" ng-model="newRestaurant.reference">
                 </div>
                 <div class="cell-3">
-                    <button type="button" class="button info place-right">GENERAR</button>
+                    <button type="button" class="button info place-right" ng-click="makeReference()">GENERAR</button>
                 </div>
             </div>
             <hr>
             <div class="row">
                 <div class="cell-6">
-                    <input type="text" placeholder="Nombre del restaurante">
+                    <input type="text" placeholder="Nombre del restaurante" ng-model="newRestaurant.name">
                 </div>
                 <div class="cell-6">
-                    <input type="text" placeholder="Responsable">
+                    <input type="text" placeholder="Responsable" ng-model="newRestaurant.responsable">
                 </div>
             </div>
             <div class="row mt-5">
                 <div class="cell-12">
-                    <input type="text" placeholder="Dirección">
+                    <input type="text" placeholder="Dirección" ng-model="newRestaurant.direccion">
                 </div>
             </div>
             <div class="row mt-5">
                 <div class="cell-12">
-                    <textarea placeholder="Escribe una descripción del restaurante" rows="5"></textarea>
+                    <textarea placeholder="Escribe una descripción del restaurante" rows="5" ng-model="newRestaurant.descripcion"></textarea>
                 </div>
             </div>
         </div>
     </div>
     <div class="dialog-actions place-right">
         <button class="button js-dialog-close">CANCELAR</button>
-        <button class="button primary js-dialog-close">GUARDAR</button>
+        <button class="button primary" ng-click="saveRestaurant()">GUARDAR</button>
+        <button class="button alert" ng-click="newRestaurant.reset()">RESETEAR CAMPOS</button>
     </div>
 </div>
 
@@ -197,3 +194,8 @@
         <button class="button primary js-dialog-close">ACEPTAR</button>
     </div>
 </div>
+
+    </div>
+</div>
+
+

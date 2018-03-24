@@ -4,6 +4,68 @@ html, body
     font-size: 14px;
 }
 
+body.login
+{
+    background-color: #750808;
+    color: #fff;
+}
+
+.navview.expanded-lg .navview-content
+{
+    height: 100%;
+}
+
+.notify
+{
+    width: auto;
+    min-width: 400px;
+    border: 0px !important;
+}
+
+.notify-title
+{
+    font-weight: bold !important;
+}
+
+.container-login
+{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.login-form
+{
+    width: 450px;
+    height: auto;
+    min-width: 350px;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+.login-row
+{
+    margin-bottom: 1em;
+    width: 100%;
+}
+
+
+
+#map {
+    height: 700px;
+    width: 100%;
+    border: 1px solid #e5e5e5;
+   }
+
+.flex-center{
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
 .navview .holder:hover, .navview .navview-menu li a:hover, .navview .pull-button:hover
 {
     background-color: rgba(31, 155, 216, 0.2) !important;

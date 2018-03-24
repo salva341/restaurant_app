@@ -1,79 +1,118 @@
 APP.controller('restaurantController', restaurantController);
 
-function restaurantController ($scope)
+function restaurantController ($scope, $http, defaultFactory)
 {
+
+  console.log(defaultFactory.getRestaurants());
 
   this.$onInit = function()
   {
     
-    if($scope.restaurantViewed === null)
+    if($scope.restaurantViewed === null) // If not view
     {
       console.log('Entro en la lista');
       $scope.view = false;
     }
-    else
+    else // If click on view
     {
       console.log('Estoy viendo');
       $scope.view = true;
     }
   }
 
-  $scope.view = false;
-  $scope.restaurantViewed = null;
-  $scope.buscarRest = '';
-  $scope.restaurantes = [
-    {
-        id: 001,
-        ref_cliente: '456545FGR',
-        nombre: 'Restaurante El Retiro',
-        responsable: 'David Moreno Sánchez',
-        alta: '20-05-2018',
-        estatus: 'Activo',
-        localizacion: 'Calle Beaterio nº30, Valencia'
-    },
-    {
-        id: 002,
-        ref_cliente: '556675FG',
-        nombre: 'Restaurante Casa De Campo',
-        responsable: 'Salvador Romero Aguilar',
-        alta: '20-05-2018',
-        estatus: 'Activo',
-        localizacion: 'Calle Entre Arroyos nº94, Madrid'
-    },
-    {
-        id: 003,
-        ref_cliente: '53646ERSD',
-        nombre: 'Bar La esquina de oro',
-        responsable: 'Manuel Carrello Jiminez',
-        alta: '17-05-2018',
-        estatus: 'Pendiente',
-        localizacion: 'Calle Manuel Escobedo nº14, Madrid'
-    },
-    {
-      id: 003,
-      ref_cliente: '67547634JH',
-      nombre: 'Bar Casa Domingo',
-      responsable: 'Domingo Lopez Fernandez',
-      alta: '13-02-2018',
-      estatus: 'Activo',
-      localizacion: 'Calle Carrer de la joyosa nº24, Valencia'
-    },
-    {
-      id: 004,
-      ref_cliente: '2346645GT',
-      nombre: 'Bar Taberna Mijares',
-      responsable: 'Jose Luis Zapata Mijares',
-      alta: '13-02-2018',
-      estatus: 'Activo',
-      localizacion: 'Calle Arroyo Belincoso nº53, Madrid'
-    }
-  ];
-
+  /**
+   * Send id to the database and ge the information of one restaurant
+   * @param {item} item 
+   */
   $scope.viewRestaurant = function(item)
   {
     console.log(item);
     $scope.view = true;
-    $scope.restaurantViewed = item.ref_cliente;
+    $scope.restaurantViewed = defaultFactory.getRestaurant();
+    console.log($scope.restaurantViewed);
   }
+
+  /**
+   * Save restaurant action, clicked from the html component. This function calls the save private save function
+   */
+  $scope.saveRestaurant = function()
+  {
+    save($scope.newRestaurant)
+    showNotify('success');
+  }
+
+
+/**
+ * Save the item to the database, must be an objects
+ * @param {Objedct} item 
+ */
+  function save(item)
+  {
+    console.log(item);
+  }
+  
+  function showNotify(type)
+  {
+    var notify = Metro.notify;
+      notify.setup({
+        duration: 1000,
+        distance: '0px',
+        animation: 'easeOutBounce'
+    });
+
+    switch (type) {
+      case 'success':
+        notify.create("El restaurante se ha actualizado correctamente", "<span class='mif-checkmark'></span> GUARDADO", {
+          cls: "success"
+      });
+        break;
+        case 'error':
+        notify.create("Uups! Ocurrió un error", "<span class='mif-checkmark'></span> ERROR", {
+          cls: "alert"
+      });
+    
+      default:
+        break;
+    }
+    
+    
+  }
+
+  $scope.newRestaurant = 
+  {
+    reference: '',
+    name: '',
+    responsable: '',
+    direccion: '',
+    descripcion: '',
+    reset: function()
+    {
+      this.reference = '';
+      this.name = '';
+      this.responsable = '';
+      this.direccion = '';
+      this.descripcion = '';
+    }
+  }
+
+  $scope.makeReference =  function () {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  
+    for (var i = 0; i < 10; i++)
+    {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+      $scope.newRestaurant.reference = '#'+text;
+  };
+
+
+  $scope.view = false;
+  $scope.restaurantViewed = null;
+  $scope.buscarRest = '';
+  $scope.restaurantes = defaultFactory.getRestaurants();
+
+  
+  
 
 }

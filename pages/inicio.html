@@ -2,12 +2,36 @@
         <h1>INICIO</h1>
     </div>
     <div class="page-options">
-        <input type="text" ng-model="buscarRest" placeholder="Buscar restaurante..." style="margin-right: 1em;">
-        <button class="button success" onclick="Metro.dialog.open('#crearRest')">INICIO</button>
+        <input type="text" ng-model="buscarRest" placeholder="Buscar en el mapa..." style="margin-right: 1em;">
+        <button class="button success" onclick="Metro.dialog.open('#crearRest')">VER LISTA</button>
     </div>
 
     <div class="page-content">
-        
+        <div id="map">HOLA MAPA</div>
     </div>
 </div>
 </div>
+
+<script>
+    function initMap() {
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 4,
+        center: {lat: 40.4165000, lng: -3.7025600}
+      });
+      var marker = new google.maps.Marker({
+        position: {lat: 40.4165000, lng: -3.7025600},
+        zoom: 12,
+        map: map,
+        mapTypeId: 'hybrid'
+      });
+
+       var marker2 = new google.maps.Marker({
+        position: {lat: 39.4697500, lng: -0.3773900},
+        zoom: 12,
+        map: map,
+        mapTypeId: 'hybrid'
+      });
+    }
+  </script>
+
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA0cZ14mtawuXj4IHbJj9wIRjsgsXUJUTs&callback=initMap"></script>

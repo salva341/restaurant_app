@@ -16,9 +16,9 @@ function mainController ($scope)
       { controller: 'controllers/restaurantController.js', url: 'pages/restaurantes.html', name: 'Restaurantes'},
       { controller: 'controllers/incidenceController.js', url: 'pages/incidencias.html', name: 'Incidencias'},
       { controller: 'controllers/responsablesController.js', url: 'pages/responsables.html', name: 'Responsables'},
-      { controller: 'controllers/viewRestaurantController.js', url: 'views/viewRestaurant.html', name: 'VerRestaurante'}
+      { controller: 'controllers/viewRestaurantController.js', url: 'views/viewRestaurant.html', name: 'VerRestaurante'},
+      { controller: 'controllers/adminAreaController.js', url: 'pages/admin.html', name: 'AdminArea'}
     ];
-
 
     $scope.menuActive = '';
     $scope.template = $scope.templates[0];
