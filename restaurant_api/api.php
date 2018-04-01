@@ -1,6 +1,7 @@
 <?php
 require_once "Owners.php";
 require_once "Users.php";
+require_once "jwt_helper.php";
 class API {    
     public function APIindex(){
         define("API_KEY", "70bd7e4a3238528c7a13f5027969c49d55909890ad3e5cde45fbfe0cb6da8e9f");
@@ -9,7 +10,6 @@ class API {
         $method = $_SERVER['REQUEST_METHOD'];
         switch ($method) {
             case 'GET'://consulta
-
                 if($_GET['action']=='owners'){
                     $this->getOwners();
                 }
@@ -23,7 +23,7 @@ class API {
                     $this->getTickets();
                 }
                 elseif($_GET['action']=='getapikey'){
-                    $this->getAPIkey();
+                    //$this->getAPIkey();
                 }
                 else{
                     echo 'There are different resources in this API. Please, ask for one.';
@@ -101,9 +101,15 @@ class API {
                 $db = new UsersDB();
                 if (isset($obj->user) && isset($obj->passwd)){
                     $response = $db->checkUser($obj->user,$obj->passwd);
-                    if ($response == 1){
-                        $respuesta = json_encode($response);
-                        $this->response(200,"success", "logged" , hash('sha256',$obj->user).API_KEY);
+                    if ($response){
+                        //$respuesta = json_encode($response);
+                        $token = array();
+                        $token['id'] = $response['id'];
+                        $token['user'] = $obj->user;
+                        $token['user_role'] = $response['user_role'];
+                        $token_to_queries = JWT::encode($token, API_KEY);
+                        //var_dump ($token = JWT::decode($token_to_queries, API_KEY));
+                        $this->response(200,"success", "logged" , $token_to_queries);
                     }
                     else{
                         $this->response(400,"error","Unauthorized");    

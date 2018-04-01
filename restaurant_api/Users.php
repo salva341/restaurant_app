@@ -28,14 +28,14 @@ class UsersDB {
      * @return Array array con los registros obtenidos de la base de datos
      */
     public function checkUser($user,$passwd){      
-        $stmt = $this->mysqli->prepare("SELECT count(id) FROM users WHERE username=? AND userpass=? ;");
+        $stmt = $this->mysqli->prepare("SELECT id, user_role FROM users WHERE username=? AND userpass=? ;");
         //$stmt->bind_param('s', $user);
         $stmt->bind_param('ss', $user,$passwd);
         $stmt->execute();
         $result = $stmt->get_result();        
-        $peoples = $result->fetch_row(); 
+        $peoples = $result->fetch_assoc(); 
         $stmt->close();
-        return $peoples[0];              
+        return $peoples;              
     }
 }
 ?>
