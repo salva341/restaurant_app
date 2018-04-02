@@ -2,20 +2,20 @@ APP.controller('restaurantController', restaurantController);
 
 function restaurantController ($scope, $http, defaultFactory)
 {
-
-  console.log(defaultFactory.getRestaurants());
-
   this.$onInit = function()
   {
-    
     if($scope.restaurantViewed === null) // If not view
     {
-      console.log('Entro en la lista');
+      $scope.loading = true;
+      // PETICIONES PRINCIPALES A API
+      defaultFactory.getRestaurants().then(function(data) {
+          $scope.loading = false;
+          $scope.restaurants = data.data;
+      });
       $scope.view = false;
     }
     else // If click on view
     {
-      console.log('Estoy viendo');
       $scope.view = true;
     }
   }
@@ -26,10 +26,8 @@ function restaurantController ($scope, $http, defaultFactory)
    */
   $scope.viewRestaurant = function(item)
   {
-    console.log(item);
     $scope.view = true;
-    $scope.restaurantViewed = defaultFactory.getRestaurant();
-    console.log($scope.restaurantViewed);
+    $scope.restaurantViewed = defaultFactory.getRestaurantById();
   }
 
   /**
@@ -40,41 +38,18 @@ function restaurantController ($scope, $http, defaultFactory)
     save($scope.newRestaurant)
     showNotify('success');
   }
-
-
-/**
- * Save the item to the database, must be an objects
- * @param {Objedct} item 
- */
-  function save(item)
-  {
-    console.log(item);
-  }
   
-  function showNotify(type)
+  $scope.viewList = function()
   {
-    var notify = Metro.notify;
-      notify.setup({
-        duration: 1000,
-        distance: '0px',
-        animation: 'easeOutBounce'
-    });
+    $scope.loading = true;
+    setTimeout(function()
+    {
+      $scope.loading = false;
+      $scope.restaurantViewed = null;
+      $scope.view = false;
+      $scope.$apply();
+    }, 500);
 
-    switch (type) {
-      case 'success':
-        notify.create("El restaurante se ha actualizado correctamente", "<span class='mif-checkmark'></span> GUARDADO", {
-          cls: "success"
-      });
-        break;
-        case 'error':
-        notify.create("Uups! Ocurrió un error", "<span class='mif-checkmark'></span> ERROR", {
-          cls: "alert"
-      });
-    
-      default:
-        break;
-    }
-    
     
   }
 
@@ -106,13 +81,33 @@ function restaurantController ($scope, $http, defaultFactory)
       $scope.newRestaurant.reference = '#'+text;
   };
 
-
+  
   $scope.view = false;
   $scope.restaurantViewed = null;
   $scope.buscarRest = '';
-  $scope.restaurantes = defaultFactory.getRestaurants();
 
-  
-  
+/**
+ * Save the item to the database, must be an objects
+ * @param {Objedct} item 
+ */
+function save(item)
+{
+  console.log(item);
+}
 
+/**
+ * Show a notification, need the type of this
+ * @param {string} type 
+ */
+function showNotify(type)
+  {
+    var toast = Metro.toast.create;
+    switch (type) {
+      case 'success':
+        toast("<span class='mif-checkmark'></span> Restaurante actualizado correctamente", null, 5000, "bg-green fg-white");
+        break;
+      default:
+        break;
+    }
+  }
 }

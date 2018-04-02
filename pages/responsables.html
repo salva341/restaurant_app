@@ -1,13 +1,148 @@
-<div class="page-header">
+<div class="" ng-controller="responsablesController">
+    <div class="" ng-if="loading">
+        <div data-role="progress" data-type="line" data-small="true"></div>
+    </div>
+<div ng-show="responsableViewed == false">
+    <div class="page-header">
         <h1>DUEÑOS / RESPONSABLES</h1>
     </div>
-    <div class="page-options">
-        <input type="text" ng-model="buscarRest" placeholder="Buscar responsable..." style="margin-right: 1em;">
-        <button class="button success" onclick="Metro.dialog.open('#crearRest')">CREAR RESPONSABLE</button>
+    <!-- IF NOT VIEW ONE RESPONSABLE -->
+    
+        <div class="page-options">
+            <input type="text" ng-model="buscarRest" placeholder="Buscar responsable..." style="margin-right: 1em;">
+            <button class="button success" onclick="Metro.dialog.open('#crearRest')">CREAR RESPONSABLE</button>
+        </div>
+        <div class="page-content">
+            <table class="table striped">
+                <thead>
+                    <tr>
+                        <td>ID</td>
+                        <td>REFERENCIA</td>
+                        <td>NOMBRE</td>
+                        <td>EMAIL</td>
+                        <td>TELÉFONO</td>
+                        <td>CREACIÓN</td>
+                        <td>ESTADO</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in owners | filter : buscarRest">
+                        <td>{{item.id}}</td>
+                        <td><a href="javascript:void(0)" ng-click="viewRestaurant(item)">{{item.reference}}</a></td>
+                        <td>{{item.name}}</td>
+                        <td><a href="javascript:void(0)">{{item.email}}</a></td>
+                        <td>{{item.phone}}</td>
+                        <td>{{item.date_add}}</td>
+                        <td>{{item.status}}</td>
+                        <td class="place-right">
+                            <div class="split-button">
+                                <button class="split secondary dropdown-toggle"></button>
+                                <ul class="d-menu place-right" data-role="dropdown">
+                                    <li><a href="javascript:void(0)" ng-click="viewResponsable(item)">Ver</a></li>
+                                    <li><a href="#">Enviar E-mail</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Eliminar</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-
+    <!-- IF VIEW ONE RESPONSABLE -->
+    <div ng-show="responsableViewed !== false">
+        <div class="page-header">
+            <h1>RESPONSABLE: </h1>
+        </div>
+        <div class="page-options">
+            <button class="button link" ng-click="viewList()" style="margin-right: 0.5em;">VOLVER ATRÁS</button>
+            <button class="button info" ng-click="saveResponsable()" style="margin-right: 0.5em;">GUARDAR CAMBIOS</button>
+            <button class="button alert" onclick="Metro.dialog.open('#eliminarResp')" data-role="hint" data-hint-text="Permanentemente">ELIMINAR RESPONSABLE</button>
+        </div>
     <div class="page-content">
-
+        <div class="grid">
+            <div class="row mb-4">
+                <div class="cell-6">
+                    <h3>Información del responsable</h3>
+                </div>
+                <div class="cell-6">
+                    <h3>Incidencias abiertas</h3>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="cell-6">
+                    <div class="row mb-4">
+                        <div class="cell-6">
+                            <input type="text" ng-model="responsableViewed.reference" placeholder="Referencia del responsable">
+                        </div>
+                        <div class="cell-6">
+                            <input type="text" ng-model="responsableViewed.name" placeholder="Nombre">
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="cell-6">
+                            <input type="text" ng-model="responsableViewed.phone" placeholder="Teléfono">
+                        </div>
+                        <div class="cell-6">
+                            <input type="text" ng-model="responsableViewed.email" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="cell-6">
+                                <input type="text" data-role="calendarpicker" data-locale="es-ES" data-format="%d %b %Y" ng-model="responsableViewed.date_add">
+                        </div>
+                        <div class="cell-6">
+                            <input type="text" placeholder="Nombre">
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="cell-12">
+                            <textarea type="text" ng-model="responsableViewed.comments" placeholder="Comentarios"></textarea>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="cell-12">
+                            <textarea type="text" ng-model="responsableViewed.description" placeholder="Descripción del responsable"></textarea>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="cell-12 d-flex flex-justify-end">
+                            <button class="command-button bg-red fg-white" data-role="ripple">
+                                <span class="mif-not icon"></span>
+                                <span class="caption">
+                                    Deshabilitar
+                                    <small>Este responsable no ha pagado su cuota</small>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="cell-6">
+                    <table class="table striped">
+                        <thead>
+                            <tr>
+                                <td>ID</td>
+                                <td>REF. INCIDENCIA</td>
+                                <td>ASUNTO</td>
+                                <td>FECHA</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>001</td>
+                                <td>#456345E</td>
+                                <td>No se abre el menú</td>
+                                <td>20-03-2018</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 </div>
 </div>

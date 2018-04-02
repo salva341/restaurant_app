@@ -7,13 +7,16 @@
     </div>
 
     <div class="page-content">
-        <div id="map">HOLA MAPA</div>
+        <div id="map"></div>
     </div>
 </div>
 </div>
 
 <script>
     function initMap() {
+    var infowindow = new google.maps.InfoWindow({
+    content: 'asdasdss'
+    });
       var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 4,
         center: {lat: 40.4165000, lng: -3.7025600}
@@ -22,15 +25,21 @@
         position: {lat: 40.4165000, lng: -3.7025600},
         zoom: 12,
         map: map,
-        mapTypeId: 'hybrid'
+        mapTypeId: 'hybrid',
+        title: 'Uluru (Ayers Rock)'
       });
 
        var marker2 = new google.maps.Marker({
         position: {lat: 39.4697500, lng: -0.3773900},
         zoom: 12,
         map: map,
-        mapTypeId: 'hybrid'
+        mapTypeId: 'hybrid',
+        title: 'asdasdasUluru (Ayers Rock)'
       });
+      marker.addListener('click', function() {
+      infowindow.open(map, marker);
+      });
+
     }
   </script>
 
