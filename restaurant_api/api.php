@@ -1,7 +1,11 @@
 <?php
 require_once "Owners.php";
+require_once "Users.php";
+require_once "jwt_helper.php";
 class API {    
     public function APIindex(){
+        define("API_KEY", "70bd7e4a3238528c7a13f5027969c49d55909890ad3e5cde45fbfe0cb6da8e9f");
+
         header('Content-Type: application/JSON');                
         $method = $_SERVER['REQUEST_METHOD'];
         switch ($method) {
@@ -17,6 +21,9 @@ class API {
                 }
                 elseif($_GET['action']=='tickets'){
                     $this->getTickets();
+                }
+                elseif($_GET['action']=='getapikey'){
+                    //$this->getAPIkey();
                 }
                 else{
                     echo 'There are different resources in this API. Please, ask for one.';
@@ -34,6 +41,9 @@ class API {
                 }
                 elseif($_GET['action']=='tickets'){
                     $this->saveTickets();
+                }
+                elseif($_GET['action']=='getoken'){
+                    $this->getToken();
                 }
                 else{
                     echo 'There are different resources in this API. Please, ask for one.';
@@ -78,7 +88,41 @@ class API {
                 break;
         }
     }
-
+    function getAPIkey(){
+        if(isset($_GET['action'])){
+            $this->response(200,"success",API_KEY);
+        }
+    }
+    function getToken(){
+        if(isset($_GET['action'])){
+            $obj = json_decode( file_get_contents('php://input') );   
+                //$objArr = (array)$obj;
+                //var_dump (hash('sha256', $obj->passwd));
+                $db = new UsersDB();
+                if (isset($obj->user) && isset($obj->passwd)){
+                    $response = $db->checkUser($obj->user,$obj->passwd);
+                    if ($response){
+                        //$respuesta = json_encode($response);
+                        $token = array();
+                        $token['id'] = $response['id'];
+                        $token['user'] = $obj->user;
+                        $token['user_role'] = $response['user_role'];
+                        $token_to_queries = JWT::encode($token, API_KEY);
+                        //var_dump ($token = JWT::decode($token_to_queries, API_KEY));
+                        $this->response(200,"success", "logged" , $token_to_queries);
+                    }
+                    else{
+                        $this->response(400,"error","Unauthorized");    
+                    }
+                }
+                else{
+                    $this->response(400,"error","Unauthorized");    
+                } 
+        }
+        else{
+            $this->response(400,"error","You must provide valid user and password.");
+        }
+    }
     function getOwners(){
         if($_GET['action']=='owners'){         
             $db = new RestaurantDB();
@@ -150,10 +194,10 @@ class API {
      * @param String $status indica el estado de la respuesta puede ser "success" o "error"
      * @param String $message Descripcion de lo ocurrido
      */
-     function response($code=200, $status="", $message="") {
+     function response($code=200, $status="", $message="", $api_key="") {
         http_response_code($code);
         if( !empty($status) && !empty($message) ){
-            $response = array("status" => $status ,"message"=>$message);  
+            $response = array("status" => $status ,"message"=>$message, "api_auth"=>$api_key);  
             echo json_encode($response,JSON_PRETTY_PRINT);    
         }   
     }
