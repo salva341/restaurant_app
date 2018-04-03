@@ -6,13 +6,12 @@ function restaurantController ($scope, $http, defaultFactory)
   {
     if($scope.restaurantViewed === null) // If not view
     {
+      $scope.loading = true;
       // PETICIONES PRINCIPALES A API
       defaultFactory.getRestaurants().then(function(data) {
+          $scope.loading = false;
           $scope.restaurants = data.data;
       });
-
-
-
       $scope.view = false;
     }
     else // If click on view
@@ -86,18 +85,6 @@ function restaurantController ($scope, $http, defaultFactory)
   $scope.view = false;
   $scope.restaurantViewed = null;
   $scope.buscarRest = '';
-
-  
-
-  /*
-  $http.get("http://localhost/Restaurante/restaurant_api/owners").then(function(response) {
-    $scope.restaurants = response.data;
-    console.log($scope.restaurants);
-  })
-  */
-
-    
-  
 
 /**
  * Save the item to the database, must be an objects
