@@ -78,7 +78,7 @@ function restaurantController ($scope, $http, defaultFactory)
     {
       text += possible.charAt(Math.floor(Math.random() * possible.length));
     }
-      $scope.newRestaurant.reference = '#'+text;
+      $scope.newRestaurant.reference = '#RE'+text;
   };
 
   

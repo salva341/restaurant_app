@@ -15,7 +15,16 @@ APP.service('defaultFactory', function($http) {
         getRestaurantById: function ()
         {
             return $http.get('http://localhost/Restaurante/restaurant_api/owners'); 
-        }
+        },
+        saveOwner: function(obj)
+        {
+            return $http.post('http://localhost/Restaurante/restaurant_api/owners', obj);
+        },
+        deleteOwner: function(id_owner)
+        {
+            return $http.delete('http://localhost/Restaurante/restaurant_api/owners/'+id_owner);
+        },
+
     };
 
 

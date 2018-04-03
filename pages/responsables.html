@@ -10,7 +10,7 @@
     
         <div class="page-options">
             <input type="text" ng-model="buscarRest" placeholder="Buscar responsable..." style="margin-right: 1em;">
-            <button class="button success" onclick="Metro.dialog.open('#crearRest')">CREAR RESPONSABLE</button>
+            <button class="button success" onclick="Metro.dialog.open('#crearResp')">CREAR RESPONSABLE</button>
         </div>
         <div class="page-content">
             <table class="table striped">
@@ -29,20 +29,27 @@
                 <tbody>
                     <tr ng-repeat="item in owners | filter : buscarRest">
                         <td>{{item.id}}</td>
-                        <td><a href="javascript:void(0)" ng-click="viewRestaurant(item)">{{item.reference}}</a></td>
+                        <td><a href="javascript:void(0)" ng-click="viewResponsable(item)">{{item.reference}}</a></td>
                         <td>{{item.name}}</td>
                         <td><a href="javascript:void(0)">{{item.email}}</a></td>
                         <td>{{item.phone}}</td>
                         <td>{{item.date_add}}</td>
-                        <td>{{item.status}}</td>
+                        <td>
+                            <div class="label bg-orange fg-white" ng-if="item.status == 0">
+                                Inactivo
+                            </div>
+                            <div class="label bg-blue fg-white" ng-if="item.status == 1">
+                                Activo
+                            </div>
+                        </td>
                         <td class="place-right">
                             <div class="split-button">
                                 <button class="split secondary dropdown-toggle"></button>
                                 <ul class="d-menu place-right" data-role="dropdown">
                                     <li><a href="javascript:void(0)" ng-click="viewResponsable(item)">Ver</a></li>
-                                    <li><a href="#">Enviar E-mail</a></li>
+                                    <li><a href="javascript:void(0)">Enviar E-mail</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="#">Eliminar</a></li>
+                                    <li><a href="javascript:void(0)" ng-click="openDeleteDialog(item.id)">Eliminar</a></li>
                                 </ul>
                             </div>
                         </td>
@@ -54,12 +61,12 @@
     <!-- IF VIEW ONE RESPONSABLE -->
     <div ng-show="responsableViewed !== false">
         <div class="page-header">
-            <h1>RESPONSABLE: </h1>
+            <h1>RESPONSABLE: {{responsableViewed.reference}}</h1>
         </div>
         <div class="page-options">
-            <button class="button link" ng-click="viewList()" style="margin-right: 0.5em;">VOLVER ATRÁS</button>
+            <button class="button link" ng-click="showList()" style="margin-right: 0.5em;">VOLVER ATRÁS</button>
             <button class="button info" ng-click="saveResponsable()" style="margin-right: 0.5em;">GUARDAR CAMBIOS</button>
-            <button class="button alert" onclick="Metro.dialog.open('#eliminarResp')" data-role="hint" data-hint-text="Permanentemente">ELIMINAR RESPONSABLE</button>
+            <button class="button alert" ng-click="openDeleteDialog(responsableViewed.id)">ELIMINAR RESPONSABLE</button>
         </div>
     <div class="page-content">
         <div class="grid">
@@ -74,7 +81,7 @@
             <hr>
             <div class="row">
                 <div class="cell-6">
-                    <div class="row mb-4">
+                    <div class="row">
                         <div class="cell-6">
                             <input type="text" ng-model="responsableViewed.reference" placeholder="Referencia del responsable">
                         </div>
@@ -82,7 +89,7 @@
                             <input type="text" ng-model="responsableViewed.name" placeholder="Nombre">
                         </div>
                     </div>
-                    <div class="row mb-4">
+                    <div class="row mt-5">
                         <div class="cell-6">
                             <input type="text" ng-model="responsableViewed.phone" placeholder="Teléfono">
                         </div>
@@ -90,33 +97,31 @@
                             <input type="text" ng-model="responsableViewed.email" placeholder="Email">
                         </div>
                     </div>
-                    <div class="row mb-4">
+                    <div class="row mt-5">
                         <div class="cell-6">
                                 <input type="text" data-role="calendarpicker" data-locale="es-ES" data-format="%d %b %Y" ng-model="responsableViewed.date_add">
                         </div>
-                        <div class="cell-6">
-                            <input type="text" placeholder="Nombre">
-                        </div>
                     </div>
-                    <div class="row mb-4">
+                    <!-- 
+                    <div class="row mt-5">
                         <div class="cell-12">
                             <textarea type="text" ng-model="responsableViewed.comments" placeholder="Comentarios"></textarea>
                         </div>
                     </div>
-                    <div class="row mb-4">
+                -->
+                    <div class="row mt-5">
                         <div class="cell-12">
                             <textarea type="text" ng-model="responsableViewed.description" placeholder="Descripción del responsable"></textarea>
                         </div>
                     </div>
-                    <div class="row mb-4">
-                        <div class="cell-12 d-flex flex-justify-end">
-                            <button class="command-button bg-red fg-white" data-role="ripple">
-                                <span class="mif-not icon"></span>
-                                <span class="caption">
-                                    Deshabilitar
-                                    <small>Este responsable no ha pagado su cuota</small>
-                                </span>
-                            </button>
+                    <div class="row ">
+                        <div class="cell-12">
+                            <div class="remark success" ng-if="responsableViewed.status === 1">
+                               Este usuario se encuentra activo en el sistema.
+                            </div>
+                            <div class="remark alert" ng-if="responsableViewed.status === 0">
+                                Este usuario no se encuentra activo en el sistema.
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -144,5 +149,72 @@
         </div>
     </div>
 </div>
+<!-- Delete owner -->
+<div class="dialog" data-role="dialog" id="eliminarResp">
+    <div class="dialog-title">Eliminar responsable?</div>
+    <div class="dialog-content">
+        Si eliminas este responsable, se eliminaran sus restaurantes y sus incidencias.
+    </div>
+    <div class="dialog-actions">
+        <button class="button js-dialog-close">Cancelar</button>
+        <button class="button primary js-dialog-close">Aceptar</button>
+    </div>
+</div>
+<!--Create new owner -->
+<!-- DIALOGO CREAR RESTAURANTE-->
+<div class="dialog" data-role="dialog" id="crearResp">
+        <div class="dialog-title">CREAR RESPONSABLE</div>
+    <div class="dialog-content">
+        Por favor introduce todos los datos necesarios para crear el responsable.
+        <div class="grid mt-4">
+            <div class="row">
+                <div class="cell-9">
+                    <input type="text" readonly placeholder="Referencia *" ng-model="newOwner.reference">
+                </div>
+                <div class="cell-3">
+                    <button type="button" class="button info place-right" ng-click="makeReference()">GENERAR</button>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="cell-12">
+                    <input type="text" placeholder="Nombre completo *" ng-model="newOwner.name">
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="cell-12">
+                    <input type="text" placeholder="Email *" ng-model="newOwner.email">
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="cell-6">
+                    <input type="text" placeholder="Teléfono *" ng-model="newOwner.phone">
+                </div>
+                <!-- 
+                <div class="cell-6">
+                    <input type="text" placeholder="Comentarios" ng-model="newOwner.comments">
+                </div>
+            -->
+            </div>
+            <div class="row mt-5">
+                <div class="cell-12">
+                    <textarea placeholder="Escribe una descripción del responsable" rows="5" ng-model="newOwner.description"></textarea>
+                </div>
+            </div>
+            <div class="row" ng-if="errorCreating">
+                <div class="cell-12">
+                    <div class="remark alert">
+                        Porfavor rellena los campos requeridos.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dialog-actions text-right">
+        <button class="button js-dialog-close" ng-click="cancelCreate()">CANCELAR</button>
+        <button class="button primary" ng-click="saveOwner()">GUARDAR</button>
+    </div>
+</div>
+
 </div>
 </div>
