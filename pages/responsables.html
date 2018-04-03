@@ -1,3 +1,4 @@
+<div class="" ng-controller="responsablesController">
 <div class="page-header">
         <h1>DUEÑOS / RESPONSABLES</h1>
     </div>
@@ -7,7 +8,42 @@
     </div>
 
     <div class="page-content">
-
+        <table class="table striped">
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>REFERENCIA</td>
+                    <td>NOMBRE</td>
+                    <td>EMAIL</td>
+                    <td>TELÉFONO</td>
+                    <td>CREACIÓN</td>
+                    <td>ESTADO</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in owners | filter : buscarRest">
+                    <td>{{item.id}}</td>
+                    <td><a href="javascript:void(0)" ng-click="viewRestaurant(item)">{{item.reference}}</a></td>
+                    <td>{{item.name}}</td>
+                    <td><a href="javascript:void(0)">{{item.email}}</a></td>
+                    <td>{{item.phone}}</td>
+                    <td>{{item.date_add}}</td>
+                    <td>{{item.status}}</td>
+                    <td class="place-right">
+                        <div class="split-button">
+                            <button class="split secondary dropdown-toggle"></button>
+                            <ul class="d-menu place-right" data-role="dropdown">
+                                <li><a href="javascript:void(0)" ng-click="viewRestaurant(item)">Ver</a></li>
+                                <li><a href="#">Enviar E-mail</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Eliminar</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 </div>
