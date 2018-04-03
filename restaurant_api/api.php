@@ -147,7 +147,7 @@ class API {
                  $this->response(422,"error","Nothing to add. Check json");                           
              }else if(isset($obj->name)){
                  $owners = new RestaurantDB();     
-                 $owners->insert( $obj->name );
+                 $owners->insert($obj->reference, $obj->name, $obj->email, $obj->phone, $obj->comments, $obj->description);
                  $this->response(200,"success","new record added");                             
              }else{
                  $this->response(422,"error","The property is not defined");
@@ -166,7 +166,7 @@ class API {
                     $this->response(422,"error","Nothing to add. Check json");                        
                 }else if(isset($obj->name)){
                     $db = new RestaurantDB();
-                    $db->update($_GET['id'], $obj->name);
+                    $db->update($_GET['id'], $obj->name, $obj->email, $obj->phone, $obj->mobile, $obj->comments, $obj->description);
                     $this->response(200,"success","Record updated");                             
                 }else{
                     $this->response(422,"error","The property is not defined");                        

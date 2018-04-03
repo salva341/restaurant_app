@@ -53,9 +53,9 @@ class RestaurantDB {
      * @param String $name nombre completo de persona
      * @return bool TRUE|FALSE 
      */
-    public function insert($name=''){
-        $stmt = $this->mysqli->prepare("INSERT INTO owners(name) VALUES (?); ");
-        $stmt->bind_param('s', $name);
+    public function insert($reference, $name, $email, $phone, $comments, $description){
+        $stmt = $this->mysqli->prepare("INSERT INTO owners SET `reference`=?,`name`= ?, `email`=?, `phone`=?, `comments`=?, `description`=? ");
+        $stmt->bind_param('ssssss', $reference,$name,$email,$phone,$comments,$description);
         $r = $stmt->execute(); 
         $stmt->close();
         return $r;        
@@ -78,10 +78,10 @@ class RestaurantDB {
      * Actualiza registro dado su ID
      * @param int $id Description
      */
-    public function update($id, $newName) {
+    public function update($id, $name, $email, $phone, $mobile, $comments, $description) {
         if($this->checkID($id)){
-            $stmt = $this->mysqli->prepare("UPDATE owners SET name=? WHERE id = ? ; ");
-            $stmt->bind_param('ss', $newName,$id);
+            $stmt = $this->mysqli->prepare("UPDATE owners SET `name`= ?, `email`=?, `phone`=?, `mobile`=?, `comments`=?, `description`=? WHERE id = ? ; ");
+            $stmt->bind_param('sssssss',$name,$email,$phone,$mobile,$comments,$description,$id);
             $r = $stmt->execute(); 
             $stmt->close();
             return $r;    
