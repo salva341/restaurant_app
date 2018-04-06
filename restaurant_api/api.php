@@ -99,13 +99,13 @@ class API {
                 //$objArr = (array)$obj;
                 //var_dump (hash('sha256', $obj->passwd));
                 $db = new UsersDB();
-                if (isset($obj->user) && isset($obj->passwd)){
-                    $response = $db->checkUser($obj->user,$obj->passwd);
+                if (isset($obj->tguibtex) && isset($obj->nkahugpyqe)){
+                    $response = $db->checkUser($obj->tguibtex,$obj->nkahugpyqe);
                     if ($response){
                         //$respuesta = json_encode($response);
                         $token = array();
                         $token['id'] = $response['id'];
-                        $token['user'] = $obj->user;
+                        $token['user'] = $obj->tguibtex;
                         $token['user_role'] = $response['user_role'];
                         $token_to_queries = JWT::encode($token, API_KEY);
                         //var_dump ($token = JWT::decode($token_to_queries, API_KEY));
