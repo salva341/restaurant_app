@@ -6,7 +6,8 @@ html, body
 
 body.login
 {
-    background-color: #750808;
+    background-image: url('../../img/bg.jpg');
+    background-size: cover; 
     color: #fff;
 }
 .navview.expanded-lg .navview-content

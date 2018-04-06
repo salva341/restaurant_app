@@ -5,26 +5,33 @@
         <link rel="stylesheet" href="assets/style/css/main.css">
         <link rel="stylesheet" href="assets/modules/metroUI/css/metro-all.min.css">
     </head>
-    <body ng-controller="loginController0 " class="login">
+    <body ng-controller="loginController" class="login">
         <div class="container-login">
             <div class="login-form">
                 <div class="login-row">
-                    <input type="text" placeholder="Client id">
+                    <input type="text" ng-model="userData.tguibtex" placeholder="Nombre de usuario">
                 </div>
                 <div class="login-row">
-                    <input type="text" placeholder="Client id">
+                    <input type="password" ng-model="userData.nkahugpyqe" placeholder="Contraseña">
                 </div>
                 <div class="login-row">
-                   <button class="button success" style="width: 100%">ACCEDER</button>
+                   <button class="button success" ng-click="login()" style="width: 100%">ACCEDER</button>
+                </div>
+                <div class="login-row">
+                    <button class="button secondary" ng-click="login()" style="width: 100%">REGISTRO</button>
                 </div>
             </div>
         </div>
 
+
+        <!-- Libraries -->
+        <script src="assets/modules/cryptoJS/crypto-SHA256.js"></script>
         <script src="assets/modules/jquery.js"></script>
         <script src="assets/modules/metroUI/js/metro.min.js"></script>
         <script src="assets/modules/angularJS/angular.min.js"></script>
         <!-- ANGULAR MODULE APP --> 
         <script src="assets/js/app.js"></script>
+        <script src="services/factories.js"></script>
         <script src="controllers/loginController.js"></script>
     </body>
 </html>

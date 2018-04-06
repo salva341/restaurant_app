@@ -3,7 +3,7 @@ APP.service('defaultFactory', function($http) {
         // Get the list of all restaurants
         getRestaurants: function() 
         {
-            return $http.get('http://localhost/Restaurante/restaurant_api/owners'); 
+            return $http.get('http://localhost/Restaurante/restaurant_api/restaurants'); 
         },
         // Get the list of all owners
         getOwners: function ()
@@ -30,7 +30,11 @@ APP.service('defaultFactory', function($http) {
         {
             return $http.delete('http://localhost/Restaurante/restaurant_api/owners/'+id_owner);
         },
-
+        // Remove the owner giving id
+        getToken: function(obj)
+        {
+            return $http.post('http://localhost/Restaurante/restaurant_api/getoken', obj);
+        },
     };
 
 

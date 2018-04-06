@@ -2,7 +2,6 @@ var APP = angular.module('restaurantAPP', []);
 
 // CONTROLLER MAIN FOR FIRST PAGE
 APP.controller('mainController', mainController);
-
 /**
  * Controlador por defecto de la pagina de administracion
  * @param {*}  
