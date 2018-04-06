@@ -109,7 +109,7 @@ class API {
                         $token['user_role'] = $response['user_role'];
                         $token_to_queries = JWT::encode($token, API_KEY);
                         //var_dump ($token = JWT::decode($token_to_queries, API_KEY));
-                        $this->response(200,"success", $response['id'], $token_to_queries);
+                        $this->response(200,"success", $response['id'].'-'.$reponse['coolname'], $token_to_queries);
                     }
                     else{
                         $this->response(400,"error","Unauthorized");    
