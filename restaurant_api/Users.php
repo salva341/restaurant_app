@@ -28,7 +28,7 @@ class UsersDB {
      * @return Array array con los registros obtenidos de la base de datos
      */
     public function checkUser($user,$passwd){      
-        $stmt = $this->mysqli->prepare("SELECT id, user_role FROM users WHERE username=? AND userpass=? ;");
+        $stmt = $this->mysqli->prepare("SELECT id, user_role, coolname FROM users WHERE username=? AND userpass=? ;");
         //$stmt->bind_param('s', $user);
         $stmt->bind_param('ss', $user,$passwd);
         $stmt->execute();
