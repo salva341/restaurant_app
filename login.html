@@ -18,7 +18,10 @@
                    <button class="button success" ng-click="login()" style="width: 100%">ACCEDER</button>
                 </div>
                 <div class="login-row">
-                    <button class="button secondary" ng-click="login()" style="width: 100%">REGISTRO</button>
+                    <button class="button secondary" style="width: 100%">REGISTRO</button>
+                </div>
+                <div class="remark alert" ng-if="errorLogin">
+                    Porfavor rellena los campos requeridos.
                 </div>
             </div>
         </div>

@@ -7,11 +7,10 @@ function loginController($scope, defaultFactory)
   
   function _init()
   {
-
+    $scope.errorLogin = false;
   }
 
-  
-
+  $scope.errorLogin = false;
   $scope.userData = 
   {
     tguibtex: '',
@@ -24,10 +23,20 @@ function loginController($scope, defaultFactory)
     console.log($scope.userData);
     var encrypted = CryptoJS.SHA256($scope.userData.nkahugpyqe).toString();
     $scope.userData.nkahugpyqe = encrypted;
-    // PETICIONES PRINCIPALES A API
     defaultFactory.getToken($scope.userData).then(function(data) 
     {
-      console.log(data);
+      if(data.data.status == "success")
+      {
+        $scope.errorLogin = false;
+        document.cookie = "username="+$scope.userData.tguibtex;
+        //Set cookies
+        document.cookie = "auth="+data.data.api_auth;
+        window.location.href = "index.html";
+      }
+      else
+      {
+        $scope.errorLogin = true;
+      }
     });
   }
 
@@ -41,4 +50,5 @@ function loginController($scope, defaultFactory)
     }
       return text;
   };
+
 }
