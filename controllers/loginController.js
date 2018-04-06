@@ -16,27 +16,33 @@ function loginController($scope, defaultFactory)
     tguibtex: '',
     gfjksdglr: makeReference(),
     nkahugpyqe: ''
-  }
+  };
+
+  $scope.userSend = {};
 
   $scope.login = function()
   {
-    console.log($scope.userData);
     var encrypted = CryptoJS.SHA256($scope.userData.nkahugpyqe).toString();
-    $scope.userData.nkahugpyqe = encrypted;
-    defaultFactory.getToken($scope.userData).then(function(data) 
+    angular.copy($scope.userData, $scope.userSend);
+    $scope.userSend.nkahugpyqe = encrypted;
+
+    defaultFactory.getToken($scope.userSend).then(function(data)
     {
       if(data.data.status == "success")
       {
+        var responseData = data.data.message.split("-");
         $scope.errorLogin = false;
-        document.cookie = "username="+$scope.userData.tguibtex;
+
         //Set cookies
+        document.cookie = "username="+responseData[1];
+        document.cookie = "userid="+responseData[0];
         document.cookie = "auth="+data.data.api_auth;
+        // To login
         window.location.href = "index.html";
       }
-      else
-      {
+    }).catch(function (err) 
+    {
         $scope.errorLogin = true;
-      }
     });
   }
 

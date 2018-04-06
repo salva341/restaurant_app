@@ -9,43 +9,55 @@ APP.controller('mainController', mainController);
 function mainController ($scope) 
 {
 
-  $scope.templates =
-    [
-      { controller: 'controllers/homeController.js', url: 'pages/inicio.html', name: 'Inicio'},
-      { controller: 'controllers/restaurantController.js', url: 'pages/restaurantes.html', name: 'Restaurantes'},
-      { controller: 'controllers/incidenceController.js', url: 'pages/incidencias.html', name: 'Incidencias'},
-      { controller: 'controllers/responsablesController.js', url: 'pages/responsables.html', name: 'Responsables'},
-      { controller: 'controllers/viewRestaurantController.js', url: 'views/viewRestaurant.html', name: 'VerRestaurante'},
-      { controller: 'controllers/adminAreaController.js', url: 'pages/admin.html', name: 'AdminArea'}
-    ];
-
-    $scope.menuActive = '';
-    $scope.template = $scope.templates[0];
-    $scope.loading = false;
-    $scope.cambiaTemp = function (item)
-    {
-      $scope.menuActive =  $scope.templates[item].name;
-      $scope.template = null;
-      $scope.loading = true;
-
-      setTimeout(function()
-      {
-        $scope.loading = false;
-        $scope.template = $scope.templates[item]
-
-        $scope.$apply();
-      }, 500);
-     
-    };
-
+  this.$onInit = function()
+  {
     $scope.LOCAL_COOKIES = 
     {
       userCookie: readCookie( "username" ),
+      userIdCookie: readCookie("userid"),
       api_auth: readCookie("auth")
     }
-    
-    console.log($scope.LOCAL_COOKIES);
 
+    if($scope.LOCAL_COOKIES.userCookie === "" || $scope.LOCAL_COOKIES.userCookie === void(0) || $scope.LOCAL_COOKIES.userIdCookie === void(0) || $scope.LOCAL_COOKIES.api_auth === "" || $scope.LOCAL_COOKIES.api_auth === void(0) )
+    {
+      window.location.href = "login.html";
+    }
+    else
+    {
+      console.log("Soy controlador")
+      $scope.templates =
+      [
+        { controller: 'controllers/homeController.js', url: 'pages/inicio.html', name: 'Inicio'},
+        { controller: 'controllers/restaurantController.js', url: 'pages/restaurantes.html', name: 'Restaurantes'},
+        { controller: 'controllers/incidenceController.js', url: 'pages/incidencias.html', name: 'Incidencias'},
+        { controller: 'controllers/responsablesController.js', url: 'pages/responsables.html', name: 'Responsables'},
+        { controller: 'controllers/viewRestaurantController.js', url: 'views/viewRestaurant.html', name: 'VerRestaurante'},
+        { controller: 'controllers/adminAreaController.js', url: 'pages/admin.html', name: 'AdminArea'}
+      ];
+  
+      $scope.menuActive = '';
+      $scope.template = $scope.templates[0];
+      $scope.loading = false;
+  
+      $scope.cambiaTemp = function (item)
+      {
+        $scope.menuActive =  $scope.templates[item].name;
+        $scope.template = null;
+        $scope.loading = true;
+        console.log(item);
+  
+        setTimeout(function()
+        {
+          $scope.loading = false;
+          $scope.template = $scope.templates[item]
+  
+          $scope.$apply();
+        }, 500);
+       
+      };  
+    }
+
+    // Read Cookies
     function readCookie(name) 
     {
       var nameEQ = name + "="; 
@@ -62,4 +74,8 @@ function mainController ($scope)
     
       }
     }
+  }
+  
+   
+  
 };

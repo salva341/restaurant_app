@@ -30,6 +30,14 @@ div.label
     height: 100%;
 }
 
+.error-login
+{
+    padding: 8px 20px;
+    color: #fff;
+    background-color: #a2002580;
+    border: 1px solid #a20025;
+}
+
 .notify
 {
     width: auto;
