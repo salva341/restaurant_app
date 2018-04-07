@@ -52,11 +52,18 @@ class RestaurantsDB {
      * obtiene todos los registros de la tabla "people"
      * @return Array array con los registros obtenidos de la base de datos
      */
-    public function getRestaurantsByOwner(){        
-        $result = $this->mysqli->query('SELECT * FROM restaurants');          
-        $peoples = $result->fetch_all(MYSQLI_ASSOC);          
-        $result->close();
-        return $peoples; 
+
+    public function getRestaurantsByUser($user_id){   
+        $stmt = $this->mysqli->prepare("SELECT restaurants.* FROM restaurants 
+            INNER JOIN owners o ON restaurants.id_owner = o.id
+            INNER JOIN users u ON o.id_user = u.id 
+            WHERE u.id = ?");
+        $stmt->bind_param('s', $user_id);      
+        $stmt->execute();
+        $result = $stmt->get_result();        
+        $restaurants = $result->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        return $restaurants[0];
     }
 
     /**
