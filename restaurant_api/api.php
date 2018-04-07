@@ -104,7 +104,7 @@ class API {
                 //var_dump (hash('sha256', $obj->passwd));
                 $db = new UsersDB();
                 if (isset($obj->tguibtex) && isset($obj->nkahugpyqe)){
-                    $response = $db->checkUser($obj->tguibtex,$obj->nkahugpyqe);
+                    $response = $db->checkUser($obj->tguibtex,$obj->nkahugpyqe, $obj->gfjksdglr);
                     if ($response){
                         //$respuesta = json_encode($response);
                         $token = array();
