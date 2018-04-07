@@ -1,6 +1,7 @@
 <?php
 require_once "Owners.php";
 require_once "Users.php";
+require_once "Restaurant.php";
 require_once "jwt_helper.php";
 class API {    
     public function APIindex(){
@@ -44,6 +45,9 @@ class API {
                 }
                 elseif($_GET['action']=='getoken'){
                     $this->getToken();
+                }
+                elseif($_GET['action']=='restaurantsbyuser'){
+                    $this->getRestaurantsByUser();
                 }
                 else{
                     echo 'There are different resources in this API. Please, ask for one.';
@@ -99,17 +103,17 @@ class API {
                 //$objArr = (array)$obj;
                 //var_dump (hash('sha256', $obj->passwd));
                 $db = new UsersDB();
-                if (isset($obj->user) && isset($obj->passwd)){
-                    $response = $db->checkUser($obj->user,$obj->passwd);
+                if (isset($obj->tguibtex) && isset($obj->nkahugpyqe)){
+                    $response = $db->checkUser($obj->tguibtex,$obj->nkahugpyqe, $obj->gfjksdglr);
                     if ($response){
                         //$respuesta = json_encode($response);
                         $token = array();
                         $token['id'] = $response['id'];
-                        $token['user'] = $obj->user;
+                        $token['user'] = $obj->tguibtex;
                         $token['user_role'] = $response['user_role'];
                         $token_to_queries = JWT::encode($token, API_KEY);
                         //var_dump ($token = JWT::decode($token_to_queries, API_KEY));
-                        $this->response(200,"success", "logged" , $token_to_queries);
+                        $this->response(200,"success", $response['id'].'-'.$response['coolname'], $token_to_queries);
                     }
                     else{
                         $this->response(400,"error","Unauthorized");    
@@ -187,6 +191,28 @@ class API {
             }
         }
         $this->response(400);
+    }
+    function getRestaurantsByUser(){
+         if($_GET['action']=='restaurantsbyuser'){   
+             //Decodifica un string de JSON
+             $obj = json_decode( file_get_contents('php://input') );   
+             $objArr = (array)$obj;
+             if (empty($objArr)){
+                 $this->response(422,"error","There are not restaurant for this user");                           
+             }else if(isset($obj->id_user)){
+                 $restaurants = new RestaurantsDB();     
+                 if ($data = $restaurants->getRestaurantsByUser($obj->id_user)){      
+                 echo json_encode($data,JSON_PRETTY_PRINT);
+                 }
+                 else{
+                    $this->response(400,"error","There are not restaurants for this user.");
+                 }
+             }else{
+                 $this->response(422,"error","The property is not defined");
+             }
+         } else{               
+             $this->response(400);
+         }  
     }
     /**
      * Respuesta al cliente
