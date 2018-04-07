@@ -11,6 +11,7 @@ function responsablesController($scope, $http, defaultFactory)
       name: '',
       email: '',
       phone: '',
+      mobile: '',
       comments: '',
       description: ''
     };
@@ -49,10 +50,33 @@ function responsablesController($scope, $http, defaultFactory)
       $scope.errorCreating = false;
       defaultFactory.saveOwner($scope.newOwner).then(function(data)
       {
-        console.log(data);
+        $scope.loading = true;
+        defaultFactory.getOwners().then(function(data) 
+        {
+          $scope.loading = false;
+          $scope.owners = data.data;
+          var dialog = $("#crearResp").data('dialog');
+          dialog.close();
+          runToast('success', 'Se ha creado el owner');
+        });
       })
     }
   };
+
+  $scope.updateOwner = function()
+  {
+    if($scope.responsableViewed.name == '' || $scope.responsableViewed.id === void(0) || $scope.responsableViewed.email === '' || $scope.responsableViewed.date_add === '')
+    {
+      return;
+    }
+    else
+    {
+      defaultFactory.updateOwner($scope.responsableViewed).then(function(data)
+      {
+        runToast('success', 'Se ha actualizado el owner');
+      });
+    }
+  }
 
   $scope.cancelCreate = function()
   {
@@ -60,6 +84,7 @@ function responsablesController($scope, $http, defaultFactory)
       reference: '',
       name: '',
       email: '',
+      mobile: '',
       phone: '',
       comments: '',
       description: ''
@@ -104,6 +129,7 @@ function responsablesController($scope, $http, defaultFactory)
                     defaultFactory.getOwners().then(function(data) 
                     {
                       $scope.owners = data.data;
+                      runToast('success', 'Se ha eliminado el owner');
                     });
                   })
               }
@@ -111,4 +137,16 @@ function responsablesController($scope, $http, defaultFactory)
         ]
     });
 }
+
+function runToast(type, msg) 
+{
+  var toast = Metro.toast.create;
+  switch (type) {
+      case 'error': toast(msg, null, 5000, "bg-red fg-white"); break;
+      case 'success': toast(msg, null, 5000, "bg-green fg-white"); break;
+      case 'info': toast(msg, null, 5000, "bg-blue fg-white"); break;
+      default: toast(msg);
+  }
+}
+
 }

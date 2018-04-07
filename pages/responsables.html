@@ -21,6 +21,7 @@
                         <td>NOMBRE</td>
                         <td>EMAIL</td>
                         <td>TELÉFONO</td>
+                        <td>MÓVIL</td>
                         <td>CREACIÓN</td>
                         <td>ESTADO</td>
                         <td></td>
@@ -33,6 +34,7 @@
                         <td>{{item.name}}</td>
                         <td><a href="javascript:void(0)">{{item.email}}</a></td>
                         <td>{{item.phone}}</td>
+                        <td>{{item.mobile}}</td>
                         <td>{{item.date_add}}</td>
                         <td>
                             <div class="label bg-orange fg-white" ng-if="item.status == 0">
@@ -65,7 +67,7 @@
         </div>
         <div class="page-options">
             <button class="button link" ng-click="showList()" style="margin-right: 0.5em;">VOLVER ATRÁS</button>
-            <button class="button info" ng-click="saveResponsable()" style="margin-right: 0.5em;">GUARDAR CAMBIOS</button>
+            <button class="button info" ng-click="updateOwner()" style="margin-right: 0.5em;">GUARDAR CAMBIOS</button>
             <button class="button alert" ng-click="openDeleteDialog(responsableViewed.id)">ELIMINAR RESPONSABLE</button>
         </div>
     <div class="page-content">
@@ -91,15 +93,18 @@
                     </div>
                     <div class="row mt-5">
                         <div class="cell-6">
-                            <input type="text" ng-model="responsableViewed.phone" placeholder="Teléfono">
+                            <input type="text" ng-model="responsableViewed.mobile" placeholder="Móvil">
                         </div>
                         <div class="cell-6">
-                            <input type="text" ng-model="responsableViewed.email" placeholder="Email">
+                            <input type="text" ng-model="responsableViewed.phone" placeholder="Teléfono">
                         </div>
                     </div>
                     <div class="row mt-5">
                         <div class="cell-6">
-                                <input type="text" data-role="calendarpicker" data-locale="es-ES" data-format="%d %b %Y" ng-model="responsableViewed.date_add">
+                            <input type="text" ng-model="responsableViewed.email" placeholder="Email">
+                        </div>
+                        <div class="cell-6">
+                            <input type="text" data-role="calendarpicker" data-locale="es-ES" data-format="%d %b %Y" ng-model="responsableViewed.date_add">
                         </div>
                     </div>
                     <div class="row mt-5">
@@ -125,29 +130,14 @@
                     </div>
                     <div class="row mt-3">
                         <div class="cell-12">
-                                <textarea type="text" ng-model="responsableViewed.comments" placeholder="Comentario acerca del responsable"></textarea>
+                            <textarea type="text" ng-model="responsableViewed.comments" placeholder="Comentario acerca del responsable"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="cell-6">
-                    <table class="table striped">
-                        <thead>
-                            <tr>
-                                <td>ID</td>
-                                <td>REFERENCIA</td>
-                                <td>ASUNTO</td>
-                                <td>FECHA</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>001</td>
-                                <td>#IN456345E</td>
-                                <td>No se abre el menú</td>
-                                <td>20-03-2018</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="remark yellow">
+                        Esta funcionalidad esta bajo desarrollo
+                    </div>
                 </div>
             </div>
         </div>
@@ -194,11 +184,9 @@
                 <div class="cell-6">
                     <input type="text" placeholder="Teléfono *" ng-model="newOwner.phone">
                 </div>
-                <!-- 
                 <div class="cell-6">
-                    <input type="text" placeholder="Comentarios" ng-model="newOwner.comments">
+                    <input type="text" placeholder="Teléfono movil" ng-model="newOwner.mobile">
                 </div>
-            -->
             </div>
             <div class="row mt-5">
                 <div class="cell-12">

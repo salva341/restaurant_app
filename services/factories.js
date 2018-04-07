@@ -30,7 +30,11 @@ APP.service('defaultFactory', function($http) {
         {
             return $http.delete('http://localhost/Restaurante/restaurant_api/owners/'+id_owner);
         },
-
+        // Update the owner giving ID
+        updateOwner: function(obj)
+        {
+            return $http.put('http://localhost/Restaurante/restaurant_api/owners/'+obj.id, obj);
+        },
     };
 
 
